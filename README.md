@@ -1,4 +1,4 @@
-### <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDR4eGFnb2dlMjd0bjE5MnZnNWg5NnFmYXFsbjA0bzd4ZmYwNzJ4bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YnkMcHgNIMW4Yfmjxr/giphy.gif" width="50"> Django Comments System 💬>
+### <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDR4eGFnb2dlMjd0bjE5MnZnNWg5NnFmYXFsbjA0bzd4ZmYwNzJ4bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YnkMcHgNIMW4Yfmjxr/giphy.gif" width="50"> Django Comments System 💬
 
 ---
 
@@ -24,3 +24,5 @@ comments/
 │ ├── comment_detail.html 
 │ ├── comment_form.html 
 │ └── comment_delete.html 
+
+02.01.2026
