@@ -1,10 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Теги</title>
+    <style>
+        .tags-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0d6efd;
+        }
+        .create-form {
+            background-color: #e7f5ff;
+            padding: 25px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tags-list {
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .tag-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tag-item:last-child {
+            border-bottom: none;
+        }
+        .tag-item:hover {
+            background-color: #f8f9fa;
+        }
+        .tag-name {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #212529;
+        }
+        .tag-count {
+            background-color: #0d6efd;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .form-control:focus {
+            border-color: #86b7fe;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .page-title h1 {
+            margin: 0;
+        }
+        .tag-icon {
+            font-size: 1.5em;
+        }
+        .logout-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #6c757d;
+            text-decoration: none;
+        }
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    <div class="tags-container">
+        <div class="header-section">
+            <div class="page-title">
+                <span class="tag-icon">🏷️</span>
+                <h1>Управління тегами</h1>
+            </div>
+            <p style="color: #6c757d; margin: 0;">
+                Створюйте та переглядайте теги для категорізації контенту
+            </p>
+        </div>
 
+        <!-- Форма створення тега -->
+        <div class="create-form">
+            <h2 style="margin-top: 0; color: #0d6efd;">➕ Створити новий тег</h2>
+            <form method="post" action="{% url 'create_tag' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           placeholder="Введіть назву тегу (макс. 30 символів)"
+                           maxlength="30"
+                           required>
+                    {% if form.errors %}
+                        <div class="error-message">
+                            {% for error in form.errors.name %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn-primary">
+                    🏷️ Створити тег
+                </button>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="margin-top: 15px; padding: 10px;
+                                background-color: {% if message.tags == 'success' %}#d1e7dd{% else %}#f8d7da{% endif %};
+                                color: {% if message.tags == 'success' %}#0f5132{% else %}#842029{% endif %};
+                                border-radius: 4px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Список тегів -->
+        <div class="tags-list">
+            <div style="padding: 20px; background-color: #f8f9fa; border-bottom: 1px solid #e9ecef;">
+                <h2 style="margin: 0; color: #212529;">📋 Список тегів</h2>
+            </div>
+
+            {% if tags %}
+                {% for tag in tags %}
+                    <div class="tag-item">
+                        <span class="tag-name">{{ tag.name }}</span>
+                        <span class="tag-count">#{{ forloop.counter }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p style="font-size: 1.2em;">📭 Теги ще не створені</p>
+                    <p style="color: #6c757d;">Створіть перший тег за допомогою форми вище</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="/" class="logout-link">
+                ← На головну
+            </a>
+            <span style="color: #6c757d; margin: 0 10px;">•</span>
+            <a href="{% url 'logout' %}" class="logout-link">
+                Вийти з системи
+            </a>
+        </div>
+    </div>
 </body>
 </html>
