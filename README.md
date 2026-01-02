@@ -12,17 +12,4 @@
 
 ---
 
-## 📁 Структура проекту:
-
-comments/
-├── models.py 
-├── views.py 
-├── urls.py 
-├── templates/ 
-│ └── comments/
-│ ├── comment_list.html 
-│ ├── comment_detail.html 
-│ ├── comment_form.html 
-│ └── comment_delete.html 
-
-02.01.2026
+## 02.01.2026
