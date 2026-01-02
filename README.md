@@ -1,8 +1,4 @@
-# Django Comments System 💬
-
-<p align="left">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDR4eGFnb2dlMjd0bjE5MnZnNWg5NnFmYXFsbjA0bzd4ZmYwNzJ4bSZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/YnkMcHgNIMW4Yfmjxr/giphy.gif" width="80" alt="comments-gif">
-</p>
+### <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDR4eGFnb2dlMjd0bjE5MnZnNWg5NnFmYXFsbjA0bzd4ZmYwNzJ4bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YnkMcHgNIMW4Yfmjxr/giphy.gif" width="50"> Django Comments System 💬>
 
 ---
 
@@ -28,12 +24,3 @@ comments/
 │ ├── comment_detail.html 
 │ ├── comment_form.html 
 │ └── comment_delete.html 
-
-
-### <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDR4eGFnb2dlMjd0bjE5MnZnNWg5NnFmYXFsbjA0bzd4ZmYwNzJ4bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YnkMcHgNIMW4Yfmjxr/giphy.gif" width="50"> MODELS
-
-### <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDR4eGFnb2dlMjd0bjE5MnZnNWg5NnFmYXFsbjA0bzd4ZmYwNzJ4bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YnkMcHgNIMW4Yfmjxr/giphy.gif" width="50"> VIEWS
-
-### <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDR4eGFnb2dlMjd0bjE5MnZnNWg5NnFmYXFsbjA0bzd4ZmYwNzJ4bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YnkMcHgNIMW4Yfmjxr/giphy.gif" width="50"> TEMPLATES
-
-### <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDR4eGFnb2dlMjd0bjE5MnZnNWg5NnFmYXFsbjA0bzd4ZmYwNzJ4bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YnkMcHgNIMW4Yfmjxr/giphy.gif" width="50"> URLS
