@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -27,7 +27,7 @@ class CommentDetailView(DetailView):
     model = Comment
     template_name = 'comments/comment_detail.html'
     pk_url_kwarg = 'id'
-    context_object_name = 'comments'
+    context_object_name = 'comment'
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
@@ -41,6 +41,9 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('comment_list', kwargs={'post_id': self.post.id})
+
 
 class CommentUpdateView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     model = Comment
@@ -50,5 +53,16 @@ class CommentUpdateView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     def get_queryset(self):
         return Comment.objects.filter(author=self.request.user)
 
+    def get_success_url(self):
+        return reverse_lazy('comment_detail', kwargs={'pk': self.object.id})
 
 
+class CommentDeleteView(DeleteView, LoginRequiredMixin, UserPassesTestMixin ):
+    model = Comment
+    template_name = 'comments/comment_confirm_delete.html'
+
+    def get_queryset(self):
+        return Comment.objects.filter(author=self.request.user)
+
+    def get_success_url(self):
+        return reverse_lazy('comment_list', kwargs={'post_id': self.object.post.id})
