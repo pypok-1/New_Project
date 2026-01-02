@@ -59,10 +59,11 @@ class CommentUpdateView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
 
 class CommentDeleteView(DeleteView, LoginRequiredMixin, UserPassesTestMixin ):
     model = Comment
-    template_name = 'comments/comment_confirm_delete.html'
+    template_name = 'comments/comment_delete.html'
 
     def get_queryset(self):
         return Comment.objects.filter(author=self.request.user)
 
     def get_success_url(self):
         return reverse_lazy('comment_list', kwargs={'post_id': self.object.post.id})
+
