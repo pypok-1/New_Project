@@ -1,5 +1,5 @@
-from django.views.generic import ListView, DetailView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
@@ -40,4 +40,15 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         form.instance.post = self.post
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class CommentUpdateView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
+    model = Comment
+    fields = ['text']
+    template_name = 'comments/comment_form.html'
+
+    def get_queryset(self):
+        return Comment.objects.filter(author=self.request.user)
+
+
 
