@@ -1,10 +1,7 @@
-<!-- comments/templates/comments/comment_list.html -->
 <!DOCTYPE html>
-<html lang="uk">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Коментарі до посту "{{ post.title }}"</title>
+    <title>Коментарі до поста</title>
     <style>
         .comment {
             border: 1px solid #ddd;
@@ -12,73 +9,79 @@
             margin-bottom: 15px;
             border-radius: 5px;
         }
-        .comment-author {
-            font-weight: bold;
-            color: #333;
-        }
-        .comment-date {
+        .comment-meta {
             color: #666;
             font-size: 0.9em;
+            margin-bottom: 10px;
         }
-        .comment-text {
-            margin-top: 10px;
-            line-height: 1.5;
+        .pagination {
+            margin-top: 20px;
+        }
+        .pagination a, .pagination span {
+            padding: 8px 16px;
+            margin: 0 4px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+        }
+        .pagination .current {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Коментарі до посту: "{{ post.title }}"</h1>
+    <h1>Коментарі до поста: {{ post.title }}</h1>
 
-        {% if user.is_authenticated %}
-        <div class="add-comment">
-            <h3>Додати коментар:</h3>
-            <form method="post" action="{% url 'comment-create' post_id=post.id %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Надіслати</button>
-            </form>
-        </div>
-        <hr>
-        {% else %}
-        <p>Щоб залишити коментар, будь ласка, <a href="{% url 'login' %}">увійдіть</a>.</p>
-        {% endif %}
+    <a href="{% url 'comment-create' post.id %}" style="
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    ">+ Додати коментар</a>
 
-        <h2>Коментарі ({{ comments.count }})</h2>
-
-        {% if comments %}
-            {% for comment in comments %}
-                <div class="comment">
-                    <div class="comment-header">
-                        <span class="comment-author">{{ comment.author.username }}</span>
-                        <span class="comment-date">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
-                    </div>
-                    <div class="comment-text">
-                        {{ comment.text|linebreaks }}
-                    </div>
+    {% if comments %}
+        <div class="comments-list">
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-meta">
+                    <strong>{{ comment.author.username }}</strong>
+                    • {{ comment.created_at|date:"d.m.Y H:i" }}
                 </div>
-            {% endfor %}
+                <p>{{ comment.text|truncatewords:50 }}</p>
+                <a href="{% url 'comment-detail' comment.id %}">Читати повністю →</a>
+            </div>
+        {% endfor %}
+        </div>
 
-            <!-- Пагінація -->
-            {% if page_obj.has_other_pages %}
-            <div class="pagination">
+        {% if page_obj.paginator.num_pages > 1 %}
+        <div class="pagination">
+            <span class="step-links">
                 {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}">Попередня</a>
+                    <a href="?page=1">&laquo; перша</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">попередня</a>
                 {% endif %}
 
-                <span>Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}</span>
+                <span class="current">
+                    Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}
+                </span>
 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">Наступна</a>
+                    <a href="?page={{ page_obj.next_page_number }}">наступна</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">остання &raquo;</a>
                 {% endif %}
-            </div>
-            {% endif %}
-
-        {% else %}
-            <p>Ще немає коментарів. Будьте першим!</p>
+            </span>
+        </div>
         {% endif %}
+    {% else %}
+        <p>Ще немає коментарів до цього поста. Будьте першим!</p>
+    {% endif %}
 
-        <a href="{% url 'post-detail' pk=post.id %}">← Повернутись до посту</a>
+    <div style="margin-top: 30px;">
+        <a href="{{ post.get_absolute_url }}">← Назад до поста</a>
     </div>
 </body>
 </html>

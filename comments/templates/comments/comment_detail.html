@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Коментар {{ comment.id }}</title>
+    <style>
+        .comment-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .comment-header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .comment-body {
+            padding: 30px;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            line-height: 1.6;
+        }
+        .meta-info {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #6c757d;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="comment-detail">
+        <div class="comment-header">
+            <h1>Коментар до поста: "{{ comment.post.title }}"</h1>
+            <div class="meta-info">
+                <strong>Автор:</strong> {{ comment.author.username }}<br>
+                <strong>Дата публікації:</strong> {{ comment.created_at|date:"d.m.Y о H:i" }}<br>
+                <strong>Пост:</strong> <a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title }}</a>
+            </div>
+        </div>
+
+        <div class="comment-body">
+            <h3>Текст коментаря:</h3>
+            <p style="white-space: pre-wrap;">{{ comment.text }}</p>
+        </div>
+
+        <a href="{% url 'comment-list' comment.post.id %}" class="back-link">
+            ← Назад до всіх коментарів
+        </a>
+    </div>
+</body>
+</html>
