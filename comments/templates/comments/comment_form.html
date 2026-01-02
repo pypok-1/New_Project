@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if object %}Редагування{% else %}Створення{% endif %} коментаря</title>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-height: 150px;
+        }
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background-color: #45a049;
+        }
+        .cancel-link {
+            color: #6c757d;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>
+            {% if object %}
+                Редагувати коментар
+            {% else %}
+                Додати коментар до поста
+            {% endif %}
+        </h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.text.label_tag }}<br>
+                {{ form.text }}
+                {% if form.text.errors %}
+                    <div style="color: red;">{{ form.text.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn-submit">Зберегти</button>
+
+            {% if object %}
+                <a href="{% url 'comment-detail' object.id %}" class="cancel-link">Скасувати</a>
+            {% else %}
+                <a href="javascript:history.back()" class="cancel-link">Назад</a>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>

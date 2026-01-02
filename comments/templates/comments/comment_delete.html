@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Видалити коментар {{ object.id }}</title>
+    <style>
+        .delete-confirmation {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .warning-header {
+            background-color: #fff3cd;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin-bottom: 25px;
+        }
+        .comment-preview {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+        }
+        .comment-text {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+        }
+        .meta-info {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        .form-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+        .btn-cancel {
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .btn-cancel:hover {
+            background-color: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+        .post-info {
+            background-color: #e7f5ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0d6efd;
+        }
+    </style>
+</head>
+<body>
+    <div class="delete-confirmation">
+        <div class="warning-header">
+            <h2 style="color: #856404; margin: 0;">⚠️ Підтвердження видалення</h2>
+            <p style="margin: 10px 0 0 0; color: #856404;">
+                Ви збираєтеся видалити коментар. Цю дію не можна скасувати.
+            </p>
+        </div>
+
+        <div class="post-info">
+            <h3 style="margin-top: 0;">Коментар до поста:</h3>
+            <p><strong>«{{ object.post.title }}»</strong></p>
+        </div>
+
+        <div class="comment-preview">
+            <div class="meta-info">
+                <strong>Автор:</strong> {{ object.author.username }}<br>
+                <strong>Дата створення:</strong> {{ object.created_at|date:"d.m.Y о H:i" }}
+            </div>
+
+            <h4>Текст коментаря:</h4>
+            <div class="comment-text">{{ object.text }}</div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn-delete">
+                    🗑️ Так, видалити коментар
+                </button>
+                <a href="{% url 'comment_detail' object.id %}" class="btn-cancel">
+                    ↩️ Скасувати
+                </a>
+            </div>
+        </form>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{% url 'comment_list' post_id=object.post.id %}" style="color: #6c757d; text-decoration: none;">
+                ← Назад до всіх коментарів
+            </a>
+        </div>
+    </div>
+</body>
+</html>
